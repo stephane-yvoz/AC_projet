@@ -1,5 +1,5 @@
 package src.graphe;
-class Edge
+public class Edge
 {
    int from;
    int to;
@@ -14,5 +14,13 @@ class Edge
     final int other(int v)
     {
 	if (this.from == v) return this.to; else return this.from;
-    }    
+    }
+    
+    public boolean equals(Object o) {
+    	if(!(o instanceof Edge)) {
+    		return false;
+    	}
+    	return ((Edge)o).to == this.to && ((Edge)o).from == this.from; 
+    }
+    
 }

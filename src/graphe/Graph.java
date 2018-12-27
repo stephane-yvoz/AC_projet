@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
 
-class Graph{
+public class Graph{
    private ArrayList<Edge>[] adj;
    private int[] coordX;
    private int[] coordY;
@@ -48,6 +48,12 @@ class Graph{
                 adj[v].add(e);
                 adj[w].add(e);
          }
+   public void deleteEdge(Edge e) {
+	   int v = e.from;
+	   int w = e.to;
+	   adj(v).remove(e);
+	   adj(w).remove(e);
+   }
    
    public ArrayList<Edge> adj(int v)
          {
