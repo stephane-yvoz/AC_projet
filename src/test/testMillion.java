@@ -65,16 +65,16 @@ public class testMillion {
 		int[] occurence = new int[8];
 		for(int i=0;i<8;i++) {
 			occurence[i] = 0;
-		}
-		for(int i=0;i<1;i++) {
+		}	
+		for(int i=0;i<1000000;i++) {
 			Graph couvrant = Kruskal.couvrantKruskal(g);
-			for(Edge e:couvrant.edges()) {
-				System.out.println(e.getFrom() + "  "+ e.getTo());
-			}
-			//int type = getTypeArbre(couvrant);
-			//couvrant.occurence[type] ++;
+			int type = getTypeArbre(couvrant);
+			occurence[type] ++;
 		}
 		
+		for(int i=0;i<8;i++) {
+			System.out.println("occurence du type "+i+" : "+occurence[i]);
+		}
 		
 	}
 
@@ -86,6 +86,8 @@ public class testMillion {
 		g1.addEdge(new Edge(0,3));
 		g1.addEdge(new Edge(1,3));
 		g1.addEdge(new Edge(2,3));
+		
+		
 		
 		testMillion.initTypesArbre(g1);
 		

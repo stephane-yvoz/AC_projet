@@ -2,7 +2,6 @@ package src.algo;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
 import src.graphe.*;
 
 
@@ -30,28 +29,25 @@ public class Kruskal {
 			visit[i]=false;
 		}
 		for(int i =0;i<visit.length;i++) {
-			if(visit[i] == false)
-				result =  result || visiter(i,arbre,visit);	
-		}
-		for(Edge e : arbre.edges()) {
-			e.setUsed(false);
+			if(!visit[i])
+				result =  (result || visiter(i,arbre,visit,-1));	
 		}
 		return result;
 	}
 	
-	public static boolean visiter(int depart,Graph arbre, boolean[] visit) {
+	public static boolean visiter(int depart,Graph arbre, boolean[] visit,int parent) {
 		int other;
 		visit[depart] = true;
 		for(Edge e : arbre.adj(depart)) {
-			if(e.isUsed()==false) {    // si pas déja passé par la
-				e.setUsed(true);
-				other = e.other(depart);  
-				if(visit[other] == true) {  // si on peut visiter un sommet déja visité == cycle
+			other = e.other(depart);
+			if(!visit[other]) {
+				if(visiter(other,arbre,visit,depart)) {
 					return true;
-				}else {                     //sinon on doit visiter les voisins de ce sommet 
-					return visiter(other,arbre,visit);
 				}
+			}else if(other != parent) {
+				return true;
 			}
+			
 		}
 		return false;
 	}
@@ -59,7 +55,7 @@ public class Kruskal {
 	public static void main(String[] args) {
 		Graph g = new Graph(4);
 		g.addEdge(new Edge(0,3));
-		g.addEdge(new Edge(2,3));
+		g.addEdge(new Edge(3,2));
 		g.addEdge(new Edge(1,3));
 		
 		System.out.println(Kruskal.isCyclique(g));

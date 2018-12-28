@@ -59,7 +59,12 @@ public class Graph{
 	   if(!(o instanceof Graph)) {
 		   return false;
 	   }
-	   return this.edges().equals(((Graph)o).edges());
+	   ArrayList<Edge> listThis = this.edges();
+	   ArrayList<Edge> listO = ((Graph)o).edges();
+	   if(listThis.size()!=listO.size()) {
+		   return false;
+	   }
+	   return listO.containsAll(listThis);
    }
    
    
