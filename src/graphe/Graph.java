@@ -43,17 +43,26 @@ public class Graph{
     
    public void addEdge(Edge e)
          {
-                int v = e.from;
-                int w = e.to;
+                int v = e.getFrom();
+                int w = e.getTo();
                 adj[v].add(e);
                 adj[w].add(e);
          }
    public void deleteEdge(Edge e) {
-	   int v = e.from;
-	   int w = e.to;
-	   adj(v).remove(e);
-	   adj(w).remove(e);
+	   int v = e.getFrom();
+	   int w = e.getTo();
+	   adj[v].remove(e);
+	   adj[w].remove(e);
    }
+   
+   public boolean equals(Object o) {
+	   if(!(o instanceof Graph)) {
+		   return false;
+	   }
+	   return this.edges().equals(((Graph)o).edges());
+   }
+   
+   
    
    public ArrayList<Edge> adj(int v)
          {
@@ -65,7 +74,7 @@ public class Graph{
 	ArrayList<Edge> list = new ArrayList<Edge>();
         for (int v = 0; v < V; v++)
             for (Edge e : adj(v)) {
-                if (e.from == v)
+                if (e.getFrom() == v)
                     list.add(e);
             }
         return list;
@@ -115,9 +124,9 @@ public class Graph{
 	// dessine les arêtes 
 	for (Edge e: edges())
 	    {
-		int i = e.from;
-		int j = e.to;
-		if (e.used)
+		int i = e.getFrom();
+		int j = e.getTo();
+		if (e.isUsed())
 		    g2d.setColor(Color.RED);
 		else
 		    g2d.setColor(Color.GRAY);
@@ -145,7 +154,7 @@ public class Graph{
 		PrintWriter writer = new PrintWriter(s, "UTF-8");
 		writer.println("digraph G{");
 		for (Edge e: edges())
-		    writer.println(e.from + "->" + e.to+";");
+		    writer.println(e.getFrom() + "->" + e.getTo()+";");
 		writer.println("}");
 		writer.close();
 	    }

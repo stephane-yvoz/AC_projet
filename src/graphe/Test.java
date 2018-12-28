@@ -69,12 +69,12 @@ public class Test{
 		
 		for (Edge e: G.edges())
 		    {
-			int i = e.from % size;
-			int j = e.from / size;
+			int i = e.getFrom() % size;
+			int j = e.getFrom() / size;
 			writer.println(String.format(Locale.US, "\\begin{scope}[xshift=%dcm, yshift=%dcm]", i , j));
-			if (e.to == e.from + size){
+			if (e.getTo() == e.getFrom() + size){
 			    /* arête verticale */
-			    if (!e.used)
+			    if (!e.isUsed())
 				{
 				    writer.println("\\draw (0.4,0.9) -- (0.6,0.9);");
 				    writer.println("\\draw (0.4,1.1) -- (0.6,1.1);");			    			    
@@ -88,7 +88,7 @@ public class Test{
 			else{
 			    /* arête horizontale */
 			    
-			    if (!e.used)
+			    if (!e.isUsed())
 				{
 				    writer.println("\\draw (0.9,0.4) -- (0.9,0.6);");
 				    writer.println("\\draw (1.1,0.4) -- (1.1,0.6);");			    			    
