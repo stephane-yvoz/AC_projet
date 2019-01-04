@@ -2,6 +2,7 @@ package src.test;
 
 import src.algo.AldousBroder;
 import src.algo.Kruskal;
+import src.algo.Wilson;
 import src.graphe.Edge;
 import src.graphe.Graph;
 
@@ -95,6 +96,22 @@ public class testMillion {
 		}
 	}
 
+	private static void testMillionWilson(Graph g){
+		int[] occurence = new int[8];
+		for(int i=0;i<8;i++) {
+			occurence[i] = 0;
+		}
+		for(int i=0;i<1000000;i++) {
+			Graph couvrant = Wilson.couvrant(g);
+			int type = getTypeArbre(couvrant);
+			occurence[type] ++;
+		}
+
+		for(int i=0;i<8;i++) {
+			System.out.println("occurence du type "+i+" : "+occurence[i]);
+		}
+	}
+
 	private static void testMillion(Graph g) {
 		int[] occurence = new int[8];
 		for(int i=0;i<8;i++) {
@@ -125,6 +142,8 @@ public class testMillion {
 		
 		testMillion.initTypesArbre(g1);
 
-		testMillionAldous(g1);
+		//testMillionAldous(g1);
+		//testMillionKruskal(g1);
+		testMillionWilson(g1);
 	}
 }

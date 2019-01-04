@@ -11,7 +11,7 @@ public class AldousBroder {
 
         Graph arbre = new Graph(g.vertices());
         int current = 0;
-        ArrayList<Edge> edges = g.adj(current); // on choisit le sommet de départ : 0, pour que l'algorithme fonctionne on AldousBroder pas besoin de chosiir aléatoirement
+        ArrayList<Edge> edges = g.adj(current); // on choisit le sommet de départ : 0, pour que l'algorithme fonctionne on a pas besoin de chosir aléatoirement
         boolean[] visite = new boolean[g.vertices()];
 
         //initialisation
@@ -37,7 +37,7 @@ public class AldousBroder {
 
     /**
      *
-     * @param t un tableau représentant l'etat des sommets du graphs : visit
+     * @param t un tableau représentant l'etat des sommets du graphs : visité ou non
      * @return vrai si tout les sommet sont visité
      */
     private static boolean complet(boolean[] t) {
