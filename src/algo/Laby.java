@@ -104,9 +104,55 @@ public class Laby {
         return res-2;
     }
 
-    public int plusCourt(Graph g){
-        int res = 0;
+    public int plusCourt(){
 
+        int from = 0; // entrée du labyrinthe
+        int to = inverse.vertices()-1; // sortie du labyrinthe
+        boolean[] visite = new boolean[inverse.vertices()]; // sommet visité
+        for(int i =0; i < visite.length;i++){
+            visite[i] = false;
+        }
+
+        int [] dist = new int [inverse.vertices()];  // distances depuis from
+
+        //initialisation distance
+        for (int i=0; i<dist.length; i++) {
+            dist[i] = Integer.MAX_VALUE;
+        }
+        dist[from] = 1; // la case d'entré compte comme 1 dans la distance entre elle et la sortie
+
+        int sommetMin;
+        //tant qu'on a pas parcouru tous les sommets
+        while(!finParcour(visite)){
+
+            sommetMin = minNode(dist,visite);
+            visite[sommetMin] = true;
+            //on parcour les voisins
+            for(int i = 0;i < inverse.adj(sommetMin).size();i++){
+                if(dist[inverse.adj(sommetMin).get(i).other(sommetMin)]  > dist[sommetMin] + 1){
+                    dist[inverse.adj(sommetMin).get(i).other(sommetMin)] = dist[sommetMin] + 1;
+                }
+            }
+
+        }
+
+        return dist[to];
+    }
+
+    private int minNode (int [] dist, boolean[] visite) {
+           int min = Integer.MAX_VALUE;
+           int sommet = -1;
+           for (int i=0; i<dist.length; i++) {
+              if (!visite[i] && dist[i]<min) {sommet=i; min=dist[i];}
+           }
+           return sommet;
+    }
+
+    private boolean finParcour(boolean[] x){
+        boolean res = true;
+        for(int i =0;i < x.length;i++){
+            res = res && x[i];
+        }
         return res;
     }
 
@@ -118,6 +164,7 @@ public class Laby {
         Laby l = new Laby(5,5);
         l.labyAldous();
         System.out.println(l.evalCulSac());
+        System.out.println(l.plusCourt());
         Test.printLaby(l.getLaby(),5,"tmp.tex");
     }
 
