@@ -9,40 +9,41 @@ public class Laby {
 
     private int x;
     private int y;
+    private Graph laby;
+    private Graph inverse;
 
     public Laby(int x, int y){
         this.x = x;
         this.y = y;
     }
 
-    private Graph createLaby(){
-        Graph g = new Graph(x*y);
+    private void createLaby(){
+        laby = new Graph(x*y);
         for(int j = 0 ;j < y;j++) {
             for (int i = 1; i < x; i++) {
-                g.addEdge(new Edge( j * x + i - 1,  j  * x + i));
+                laby.addEdge(new Edge( j * x + i - 1,  j  * x + i));
             }
         }
 
         for(int j =0; j < y-1; j++){
             for(int i =0; i < x;i++){
-                g.addEdge(new Edge( j * x + i,  (j+1)  * x + i));
+                laby.addEdge(new Edge( j * x + i,  (j+1)  * x + i));
             }
         }
 
-        return g;
     }
 
-    public Graph getLabyAldous(){
-        Graph g = createLaby();
-        Graph g2 = AldousBroder.couvrant(g);
+    public void labyAldous(){
+        createLaby();
+        inverse = AldousBroder.couvrant(laby);
         int i;
         int j = 0;
 
-        while(j < g2.edges().size()){
+        while(j < inverse.edges().size()){
             i = 0;
-            while(i < g.edges().size()){
-                if(g.edges().get(i).equals(g2.edges().get(j))){
-                    g.deleteEdge(g.edges().get(i));
+            while(i < laby.edges().size()){
+                if(laby.edges().get(i).equals(inverse.edges().get(j))){
+                    laby.deleteEdge(laby.edges().get(i));
                 }
                 else {
                     i++;
@@ -50,20 +51,19 @@ public class Laby {
             }
             j++;
         }
-        return g;
     }
 
-    public Graph getLabyKruskal() {
-        Graph g = createLaby();
-        Graph g2 = Kruskal.couvrantKruskal(g);
+    public void labyKruskal() {
+        createLaby();
+        inverse = Kruskal.couvrantKruskal(laby);
         int i;
         int j = 0;
 
-        while(j < g2.edges().size()){
+        while(j < inverse.edges().size()){
             i = 0;
-            while(i < g.edges().size()){
-                if(g.edges().get(i).equals(g2.edges().get(j))){
-                    g.deleteEdge(g.edges().get(i));
+            while(i < laby.edges().size()){
+                if(laby.edges().get(i).equals(inverse.edges().get(j))){
+                    laby.deleteEdge(laby.edges().get(i));
                 }
                 else {
                     i++;
@@ -71,20 +71,20 @@ public class Laby {
             }
             j++;
         }
-        return g;
+
     }
 
-    public Graph getLabyWilson(){
-        Graph g = createLaby();
-        Graph g2 = Wilson.couvrant(g);
+    public void labyWilson(){
+        createLaby();
+        inverse = Wilson.couvrant(laby);
         int i;
         int j = 0;
 
-        while(j < g2.edges().size()){
+        while(j < inverse.edges().size()){
             i = 0;
-            while(i < g.edges().size()){
-                if(g.edges().get(i).equals(g2.edges().get(j))){
-                    g.deleteEdge(g.edges().get(i));
+            while(i < laby.edges().size()){
+                if(laby.edges().get(i).equals(inverse.edges().get(j))){
+                    laby.deleteEdge(laby.edges().get(i));
                 }
                 else {
                     i++;
@@ -92,23 +92,33 @@ public class Laby {
             }
             j++;
         }
-        return g;
     }
 
-    public int evalCulSac(Graph g){
+    public int evalCulSac(){
         int res = 0;
-        for(int i = 0; i < g.vertices();i++){
-            if(g.adj(i).size() <= 1){
+        for(int i = 0; i < inverse.vertices();i++){
+            if(inverse.adj(i).size() <= 1){
                res++;
             }
         }
-        return res;
+        return res-2;
     }
 
     public int plusCourt(Graph g){
         int res = 0;
 
         return res;
+    }
+
+    public Graph getLaby() {
+        return laby;
+    }
+
+    public static void main(String[] argv){
+        Laby l = new Laby(5,5);
+        l.labyAldous();
+        System.out.println(l.evalCulSac());
+        Test.printLaby(l.getLaby(),5,"tmp.tex");
     }
 
 }
